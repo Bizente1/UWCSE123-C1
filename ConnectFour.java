@@ -17,10 +17,10 @@ public class ConnectFour extends AbstractStrategyGame {
     public ConnectFour() {
         isXTurn = false;
         isGameOver = false;
-        gameState = new char[7][6]; // 6 7 HAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHA!!!!!!!
+        gameState = new char[7][6];
         for (int i = 0; i < gameState.length; i++) {
             for (int j = 0; j < gameState[i].length; j++) {
-                gameState[i][j] = ' ';
+                gameState[i][j] = ' ';  // loads the game state with empty chars
             }
         }
     }
@@ -124,26 +124,32 @@ public class ConnectFour extends AbstractStrategyGame {
     private void winChecker(int index1, int index2) {
 
         int[][] directions = {
-                { 1, 0 }, { 0, 1 }, { 1, 1 }, { 1, -1 },
-                { -1, 0 }, { 0, -1 }, { -1, -1 }, { -1, 1 }
+            {1, 0}, {0, 1}, {1, 1}, {1, -1},
+            {-1, 0}, {0, -1}, {-1, -1}, {-1, 1}
         };
 
         for (int[] dir : directions) {
-            boolean win = true;
+            int count = 1;
 
-            for (int step = 1; step < 4 && win; step++) {
-                int newRow = index1 + dir[1] * step;
-                int newCol = index2 + dir[0] * step;
+            for (int sign = -1; sign <= 1; sign += 2) { // counts the negative steps after positive incase 
+                                                        // a piece was placed in middle of a winning row
+                for (int step = 1; step < 4; step++) {
+                    int newX = index1 + dir[1] * step * sign;
+                    int newY = index2 + dir[0] * step * sign;
 
-                if (newRow < 0 || newRow >= gameState.length ||
-                        newCol < 0 || newCol >= gameState[0].length ||
-                        gameState[newRow][newCol] != gameState[index1][index2]) {
-                    win = false;
+                    if (newX < 0 || newX >= gameState.length ||
+                            newY < 0 || newY >= gameState[0].length ||
+                            gameState[newX][newY] != gameState[index1][index2]) {
+                        step += 4; // breaks out of the for loop
+                    } else {
+                        count++;
+                    }
                 }
             }
 
-            if (win) {
+            if (count >= 4) {
                 isGameOver = true;
+
             }
         }
 
