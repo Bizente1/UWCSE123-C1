@@ -20,7 +20,7 @@ public class ConnectFour extends AbstractStrategyGame {
         gameState = new char[7][6];
         for (int i = 0; i < gameState.length; i++) {
             for (int j = 0; j < gameState[i].length; j++) {
-                gameState[i][j] = ' ';  // loads the game state with empty chars
+                gameState[i][j] = ' '; // loads the game state with empty chars
             }
         }
     }
@@ -57,10 +57,8 @@ public class ConnectFour extends AbstractStrategyGame {
     public int getWinner() {
         if (isGameOver) {
             return getNextPlayer();
-        } else {
-            return GAME_NOT_OVER;
         }
-
+        return GAME_NOT_OVER;
     }
 
     @Override
@@ -68,14 +66,12 @@ public class ConnectFour extends AbstractStrategyGame {
         isXTurn = !isXTurn;
         if (isXTurn) {
             return PLAYER_1;
-        } else {
-            return PLAYER_2;
         }
+        return PLAYER_2;
     }
 
     @Override
     public String getMove(Scanner input) {
-
         if (input == null) {
             throw new IllegalArgumentException("The Scanner given was null");
         }
@@ -124,15 +120,15 @@ public class ConnectFour extends AbstractStrategyGame {
     private void winChecker(int index1, int index2) {
 
         int[][] directions = {
-            {1, 0}, {0, 1}, {1, 1}, {1, -1},
-            {-1, 0}, {0, -1}, {-1, -1}, {-1, 1}
+            { 1, 0 }, { 0, 1 }, { 1, 1 }, { 1, -1 },
+            { -1, 0 }, { 0, -1 }, { -1, -1 }, { -1, 1 }
         };
 
         for (int[] dir : directions) {
             int count = 1;
 
-            for (int sign = -1; sign <= 1; sign += 2) { // counts the negative steps after positive incase 
-                                                        // a piece was placed in middle of a winning row
+            // counts the negative steps after positive incase a piece was placed in middle of a winning row
+            for (int sign = -1; sign <= 1; sign += 2) { 
                 for (int step = 1; step < 4; step++) {
                     int newX = index1 + dir[1] * step * sign;
                     int newY = index2 + dir[0] * step * sign;
