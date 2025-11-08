@@ -1,5 +1,9 @@
 import java.util.Scanner;
 
+/*
+ * This class creates a Connect Four game simulation and allows
+ * it user to use its methods to play the game of connect four
+ */
 public class ConnectFour extends AbstractStrategyGame {
 
     public static final char PLAYER_1_TOKEN = 'X';
@@ -17,7 +21,7 @@ public class ConnectFour extends AbstractStrategyGame {
     public ConnectFour() {
         isXTurn = false;
         isGameOver = false;
-        gameState = new char[7][6];
+        gameState = new char[7][6];  // 6-7, I just bipped right on the highway
         for (int i = 0; i < gameState.length; i++) {
             for (int j = 0; j < gameState[i].length; j++) {
                 gameState[i][j] = ' '; // loads the game state with empty chars
@@ -34,6 +38,11 @@ public class ConnectFour extends AbstractStrategyGame {
                 "If the grid fills up and no one has four in a row, it's a tie.\n";
     }
 
+    /*
+     * Pre: N/A
+     * 
+     * Post: Return 
+     */
     @Override
     public String toString() {
         String toReturn = "";
@@ -53,6 +62,12 @@ public class ConnectFour extends AbstractStrategyGame {
         return toReturn;
     }
 
+    /*
+     * Pre: N/A
+     * 
+     * Post: If the game is over it returns the player that won's number.
+     * If the game isnt over then return -1
+     */
     @Override
     public int getWinner() {
         if (isGameOver) {
@@ -61,6 +76,11 @@ public class ConnectFour extends AbstractStrategyGame {
         return GAME_NOT_OVER;
     }
 
+    /*
+     * Pre: N/A
+     * 
+     * Post: Return the number (1 or 2) of the next player
+     */
     @Override
     public int getNextPlayer() {
         isXTurn = !isXTurn;
@@ -70,13 +90,20 @@ public class ConnectFour extends AbstractStrategyGame {
         return PLAYER_2;
     }
 
+    /*
+     * Pre: Takes a Scanner input and will throw a error if the input is null.
+     * It will ask what column would you like to place your token in.
+     * It will reask the question until a number is given.
+     * 
+     * Post: will return the input given from the question as a String 
+     */
     @Override
     public String getMove(Scanner input) {
         if (input == null) {
             throw new IllegalArgumentException("The Scanner given was null");
         }
 
-        System.out.print("What coloum would you like to place your charactor (1-7): ");
+        System.out.print("What column would you like to place your charactor (1-7): ");
 
         while (!input.hasNextInt()) {
             System.out.println("That was not a number\n");
@@ -87,7 +114,16 @@ public class ConnectFour extends AbstractStrategyGame {
         return input.next();
 
     }
-
+    /*
+     * Pre: This method takes a String input which should be a number and adds it 
+     * to the corresponding column. 
+     * Checks if the String null, if input is greater than 
+     * the width of the game or if its lower than 1 it will through a error,
+     * if the coloum is full it will also throw a error
+     * 
+     * Post: A player token will be placed at the lowest open spaced in the columns
+     *  choosen by the input. 
+     */
     @Override
     public void makeMove(String input) {
         if (input == null) {
@@ -117,11 +153,14 @@ public class ConnectFour extends AbstractStrategyGame {
 
     }
 
+    /*
+     * Pre: 
+     */
     private void winChecker(int index1, int index2) {
 
         int[][] directions = {
-            { 1, 0 }, { 0, 1 }, { 1, 1 }, { 1, -1 },
-            { -1, 0 }, { 0, -1 }, { -1, -1 }, { -1, 1 }
+            {1, 0}, {0, 1}, {1, 1}, {1, -1},
+            {-1, 0}, {0, -1}, {-1, -1}, {-1, 1}
         };
 
         for (int[] dir : directions) {
